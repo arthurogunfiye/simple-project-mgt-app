@@ -1,15 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NewProject from './components/NewProject';
 import NoProjectSelected from './components/NoProjectSelected';
 import ProjectsSidebar from './components/ProjectsSidebar';
 import SelectedProject from './components/SelectedProject';
 
 function App() {
-  const [projectsState, setProjectsState] = useState({
-    selectedProjectId: undefined,
-    projects: [],
-    tasks: []
+  const [projectsState, setProjectsState] = useState(() => {
+    let projects = [];
+    let tasks = [];
+    try {
+      const savedProjects = localStorage.getItem('projects');
+      const savedTasks = localStorage.getItem('tasks');
+      if (savedProjects) projects = JSON.parse(savedProjects);
+      if (savedTasks) tasks = JSON.parse(savedTasks);
+    } catch {
+      // Fall back to empty arrays if stored data is corrupt
+    }
+    return { selectedProjectId: undefined, projects, tasks };
   });
+
+  useEffect(() => {
+    localStorage.setItem('projects', JSON.stringify(projectsState.projects));
+    localStorage.setItem('tasks', JSON.stringify(projectsState.tasks));
+  }, [projectsState.projects, projectsState.tasks]);
 
   const handleAddTask = text => {
     setProjectsState(prevState => {
