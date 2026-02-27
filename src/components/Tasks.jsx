@@ -6,7 +6,7 @@ const Tasks = ({ tasks, onAddTask, onDeleteTask }) => {
       <h2 className={h2Styles}>Tasks</h2>
       <NewTask onAddTask={onAddTask} />
       {tasks.length === 0 && (
-        <p className={paraStyles}>This project does not have any tasks yet</p>
+        <p className={paraStyles}>This project does not have any tasks yet.</p>
       )}
       {tasks.length > 0 && (
         <ul className={ulStyles}>
