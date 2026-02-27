@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import EditProject from './components/EditProject';
 import NewProject from './components/NewProject';
 import NoProjectSelected from './components/NoProjectSelected';
 import ProjectsSidebar from './components/ProjectsSidebar';
@@ -16,7 +17,7 @@ function App() {
     } catch {
       // Fall back to empty arrays if stored data is corrupt
     }
-    return { selectedProjectId: undefined, projects, tasks };
+    return { selectedProjectId: undefined, isEditing: false, projects, tasks };
   });
 
   useEffect(() => {
@@ -97,11 +98,49 @@ function App() {
       return {
         ...prevState,
         selectedProjectId: undefined,
+        isEditing: false,
         projects: prevState.projects.filter(
           project => project.id !== prevState.selectedProjectId
         ),
         tasks: prevState.tasks.filter(
           task => task.projectId !== prevState.selectedProjectId
+        )
+      };
+    });
+  };
+
+  const handleStartEditProject = () => {
+    setProjectsState(prevState => {
+      return {
+        ...prevState,
+        isEditing: true
+      };
+    });
+  };
+
+  const handleCancelEditProject = () => {
+    setProjectsState(prevState => {
+      return {
+        ...prevState,
+        isEditing: false
+      };
+    });
+  };
+
+  const handleUpdateProject = projectData => {
+    setProjectsState(prevState => {
+      return {
+        ...prevState,
+        isEditing: false,
+        projects: prevState.projects.map(project =>
+          project.id === prevState.selectedProjectId
+            ? {
+                ...project,
+                title: projectData.title,
+                description: projectData.description,
+                dueDate: projectData.dueDate
+              }
+            : project
         )
       };
     });
@@ -115,6 +154,7 @@ function App() {
     <SelectedProject
       project={selectedProject}
       onDelete={handleDeleteProject}
+      onEdit={handleStartEditProject}
       onAddTask={handleAddTask}
       onDeleteTask={handleDeleteTask}
       tasks={projectsState.tasks.filter(
@@ -123,7 +163,15 @@ function App() {
     />
   );
 
-  if (projectsState.selectedProjectId === null) {
+  if (projectsState.isEditing && selectedProject) {
+    content = (
+      <EditProject
+        project={selectedProject}
+        onUpdateProject={handleUpdateProject}
+        onCancel={handleCancelEditProject}
+      />
+    );
+  } else if (projectsState.selectedProjectId === null) {
     content = (
       <NewProject
         onAddProject={handleAddProject}
