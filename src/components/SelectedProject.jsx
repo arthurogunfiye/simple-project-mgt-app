@@ -17,7 +17,7 @@ const SelectedProject = ({
         <div className={divStyles}>
           <h1 className={h1Styles}>{title}</h1>
         </div>
-        <p className={para1Styles}>Date: {formattedDate(dueDate)}</p>
+        <p className={para1Styles}>Due Date: {formattedDate(dueDate)}</p>
         <p className={para2Styles}>Project Description: {description}</p>
         <div className={actionBtnsStyles}>
           <button className={editBtnStyles} onClick={onEdit}>
