@@ -41,18 +41,6 @@ const EditProject = ({ project, onUpdateProject, onCancel }) => {
         </p>
       </Modal>
       <div className={parentDivStyles}>
-        <menu className={menuStyles}>
-          <li>
-            <button className={cancelBtnStyles} onClick={onCancel}>
-              Cancel
-            </button>
-          </li>
-          <li>
-            <button className={saveBtnStyles} onClick={handleSave}>
-              Save
-            </button>
-          </li>
-        </menu>
         <div>
           <Input
             type='text'
@@ -73,6 +61,18 @@ const EditProject = ({ project, onUpdateProject, onCancel }) => {
             defaultValue={project.dueDate}
           />
         </div>
+        <menu className={menuStyles}>
+          <li>
+            <button className={cancelBtnStyles} onClick={onCancel}>
+              Cancel
+            </button>
+          </li>
+          <li>
+            <button className={saveBtnStyles} onClick={handleSave}>
+              Save
+            </button>
+          </li>
+        </menu>
       </div>
     </>
   );
@@ -81,8 +81,8 @@ const EditProject = ({ project, onUpdateProject, onCancel }) => {
 export default EditProject;
 
 const parentDivStyles = 'w-[35rem] mt-16';
-const menuStyles = 'flex items-center justify-end gap-4 my-4';
-const cancelBtnStyles = 'text-stone-800 hover:text-stone-950';
+const menuStyles = 'flex items-center justify-end gap-4 mt-6';
+const cancelBtnStyles = 'px-5 py-2 rounded-md bg-stone-500 text-stone-50';
 const saveBtnStyles =
   'px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950';
 const h2Styles = 'text-xl font-bold text-stone-700 my-4';
